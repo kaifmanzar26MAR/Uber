@@ -124,3 +124,79 @@
   "message": "Error message"
 }
 ```
+
+### Fetch User Profile
+
+**Endpoint:** `GET /api/v1/users/profile`
+
+**Description:** This endpoint is used to fetch the profile of a logged-in user.
+
+**Response:**
+**200 OK**
+**Description** User profile fetched successfully.
+**Body**
+```json
+{
+  "message": "User profile fetched successfully",
+  "user": {
+    "_id": "string",
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string"
+  }
+}
+```
+
+**401 Unauthorized**
+**Description** Unauthorized.
+**Body**
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error**
+**Description** An error occurred on the server.
+**Body**
+```json
+{
+  "message": "Error message"
+}
+```
+
+### Logout User
+
+**Endpoint:** `POST /api/v1/users/logout`
+
+**Description:** This endpoint is used to logout a user.
+
+**Response:**
+**200 OK**
+**Description** User logged out successfully.
+**Body**
+```json
+{
+  "message": "User logged out successfully"
+}
+```
+
+**401 Unauthorized**
+**Description** Unauthorized.
+**Body**
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error**
+**Description** An error occurred on the server.
+**Body**
+```json
+{
+  "message": "Error message"
+}
+```

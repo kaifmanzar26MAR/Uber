@@ -1,11 +1,12 @@
 const userModel = require("../models/user.model.js");
 const userService = require("../services/user.service.js");
+const blacklistTokenSchema = require("../models/blacklistToken.model.js");
 
+//*Function to validate email
 const validateEmail = (email) => {
     const re = /\S+@\S+\.\S+/;
     return re.test(email);
 }
-
 
 //*Register a user
 const registerUser = async (req, res) => {
@@ -70,7 +71,7 @@ const registerUser = async (req, res) => {
     }
 }
 
-
+//*Login a user
 const loginUser = async (req, res) => {
     try {
         //*Check if user details are provided
@@ -112,6 +113,8 @@ const loginUser = async (req, res) => {
         //*Generate token
         const token = user.generateAuthToken();
 
+        res.cookie('token', token);
+
         //*send response
         res.status(200).json({ message: "User logged in successfully", user, token });
 
@@ -120,5 +123,17 @@ const loginUser = async (req, res) => {
     }
 }
 
+//*Get current user data
+const getUserProfile = async (req, res) => {
+    res.status(200).json({ message: "User profile fetched successfully", user : req.user });
+}
 
-module.exports = { registerUser, loginUser };
+//*Logout user 
+const userLogout = async (req, res) =>{
+    res.clearCookie('token');
+    const token = req.cookies.token || req.headers.authorization.split(" ")[1];
+    await blacklistTokenSchema.create({ token });
+    res.status(200).json({ message: "User logged out successfully" });
+}
+
+module.exports = { registerUser, loginUser, getUserProfile, userLogout };
