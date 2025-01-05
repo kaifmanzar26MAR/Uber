@@ -1,12 +1,7 @@
 const userModel = require("../models/user.model.js");
 const userService = require("../services/user.service.js");
 const blacklistTokenSchema = require("../models/blacklistToken.model.js");
-
-//*Function to validate email
-const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    return re.test(email);
-}
+const { validateEmail } = require("../utils/validation.utils.js");
 
 //*Register a user
 const registerUser = async (req, res) => {
