@@ -303,5 +303,110 @@
 {
   "message": "Error message"
 }
-``
+```
+
+### Login Captain
+
+**Endpoint:** `POST /api/v1/captains/login`
+
+**Description:** This endpoint is used to login a captain.
+
+**Request Body:**
+```json
+{
+  "email": "string (required)",
+  "password": "string (required)"
+}
+```
+
+**Response: 200**
+**Description:** Captain logged in successfylly.
+**Body:**
+```json
+{
+  "message": "Captain logged in successfully",
+  "captain": {
+    "_id": "string",
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "vehicle": {
+      "color": "string",
+      "plate": "string",
+      "capacity": "number",
+      "vehicleType": "string"
+    }
+  },
+  "token": "string"
+}
+```
+### Captain Profile
+
+**Endpoint:** `GET /api/v1/captains/profile`
+
+**Description:** This endpoint is used to get the profile of the logged-in captain.
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response: 200**
+**Description:** Captain profile fetched successfully.
+**Body:**
+```json
+{
+  "message": "Got captain profile successfully",
+  "captain": {
+    "_id": "string",
+    "fullname": {
+      "firstname": "string",
+      "lastname": "string"
+    },
+    "email": "string",
+    "vehicle": {
+      "color": "string",
+      "plate": "string",
+      "capacity": "number",
+      "vehicleType": "string"
+    }
+  }
+}
+```
+
+### Logout Captain
+
+**Endpoint:** `GET /api/v1/captains/logout`
+
+**Description:** This endpoint is used to log out the captain.
+
+**Headers:** `Authorization: Bearer <token>`
+
+**Response: 200**
+**Description:** Captain logged out successfully.
+**Body:**
+```json
+{
+  "message": "Captain logged out successfully"
+}
+```
+
+
+**401 Bad Request**
+**Description** Unauthorized access.
+**Body**
+
+```json
+{
+  "message": "Unauthorized"
+}
+```
+
+**500 Internal Server Error**
+**Description** An error occurred on the server.
+**Body**
+
+```json
+{
+  "message": "Error message"
+}
 ```

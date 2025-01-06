@@ -13,10 +13,16 @@ const registerUser = async (req, res) => {
         }
 
        //*Add validation for the required data
-        const { firstname, lastname, email, password } = req.body;
+        let { firstname, lastname, email, password } = req.body;
         if (!firstname || !email || !password || firstname.trim() === "" || email.trim() === "" || password.trim() === "") {
             return res.status(401).json({ message: "All fields are required!" });
         }
+
+        //*trimming data 
+        firstname = firstname.trim();
+        lastname = lastname.trim();
+        email = email.trim();
+        password = password.trim();
 
         if(firstname.length < 3) {
             return res.status(401).json({ message: "Firstname must be at least 3 characters long!" });
@@ -75,10 +81,14 @@ const loginUser = async (req, res) => {
         }
 
         //*Add validation for the required data
-        const { email, password } = req.body;
+        let { email, password } = req.body;
         if (!email || !password || email.trim() === "" || password.trim() === "") {
             throw new Error("All fields are required");
         }
+
+        //*trimming email password
+        email = email.trim();
+        password = password.trim();
 
         if(email.length < 6) { 
             return res.status(401).json({ message: "Email must be at least 6 characters long!" });
