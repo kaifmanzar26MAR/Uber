@@ -23,12 +23,12 @@ const CaptainSignup = () => {
     <div className="p-7 h-screen justify-between flex flex-col">
       <div>
         <img
-          src="./assets/home/uber-logo.png"
+          src="./assets/driver/uber-driver-logo.jpg"
           alt="UBER"
           className="w-16 mb-4"
         />
         <form onSubmit={CaptainSignupSubmit}>
-          <h3 className="text-base mb-2 font-semibold">What's your Name</h3>
+          <h3 className="text-base mb-2 font-semibold">What's our Captain's Name</h3>
           <div className="flex gap-4 mb-5">
             <input
               type="text"
