@@ -64,7 +64,7 @@ const registerUser = async (req, res) => {
         const token = user.generateAuthToken();
 
         //*send response
-        res.status(201).json({ message: "User registered successfully", user, token });
+        res.status(200).json({ message: "User registered successfully", user, token });
         
 
     } catch (error) {

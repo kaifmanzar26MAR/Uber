@@ -1,16 +1,37 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import axios from 'axios';
+import { UserDataContext } from "../context/UserContext";
 
 const UserSignup = () => {
+  //*initialising the navigation
+      const navigate = useNavigate();
+  //*Initialising the form data state
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
     email: "",
     password: "",
   });
-  const UserSignupSubmit = (e) => {
+
+  //*Initalising the user condext data
+  const { setUser } = useContext(UserDataContext);
+
+
+  
+  
+  //*user signup form submit
+  const UserSignupSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/register`, formData);
+    if(response.status === 200){
+      const data = response.data;
+      setUser(data.user);
+      localStorage.setItem('token', data.token);
+      navigate('/home');
+    }else{
+      console.log(response);
+    }
   };
 
   return (
@@ -64,7 +85,7 @@ const UserSignup = () => {
             }}
           />
           <button className="bg-[#111] text-white font-semibold rounded px-3 py-3 mb-3  border w-full text-lg placeholder:text-base">
-            Login
+            Create Account
           </button>
         </form>
         <p className="text-center">

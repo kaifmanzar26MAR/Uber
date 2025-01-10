@@ -1,5 +1,5 @@
-const captainModel = require('../models/captain.model');
-const {createCaptain} = require('../services/captain.service');
+const captainModel = require('../models/captain.model.js');
+const {createCaptain} = require('../services/captain.service.js');
 const { validateEmail } = require("../utils/validation.utils.js");
 const blacklistTokenSchema = require("../models/blacklistToken.model.js")
 //*Registration of captain
