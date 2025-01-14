@@ -1,28 +1,41 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { UserDataContext } from "../context/UserContext";
 import axios from "axios";
 
 const UserLogin = () => {
-//*initialising the navigation
-const navigate = useNavigate();
+  //*initializing the navigation
+  const navigate = useNavigate();
   const {user, setUser} = useContext(UserDataContext);
-
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({email: "", password:""});
   const userLoginSubmit = async (e) =>{
     e.preventDefault();
-    const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, formData);
-    if(response.status === 200){
-      const data = response.data;
-      setUser(data.user);
-      //*setting the token in the localstorage
-      localStorage.setItem('token', data.token);
-      navigate('/home');
-    }else{
-      console.log(response);
+    setLoading(true);
+    try {
+      const response = await axios.post(`${import.meta.env.VITE_API_URL}/users/login`, formData);
+      if(response.status === 200){
+        const data = response.data;
+        setUser(data.user);
+        //*setting the token in the localstorage
+        localStorage.setItem('token', data.token);
+        navigate('/home');
+      }else{
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }finally{
+      setLoading(false);
     }
 
   }
+  useEffect(()=>{
+    const token = localStorage.getItem("token");
+    if(token){
+      navigate("/home");
+    }
+  },[])
 
   return (
     <div className="p-7 h-screen justify-between flex flex-col">
@@ -45,9 +58,17 @@ const navigate = useNavigate();
             placeholder="password"
             onChange={(e)=>{setFormData({...formData, password: e.target.value})}}
           />
-          <button 
-            className="bg-[#111] text-white font-semibold rounded px-3 py-3 mb-3  border w-full text-lg placeholder:text-base"
-          >Login</button>
+          
+          {
+            !loading ? 
+            <button type="submit"
+              className="bg-[#111] text-white font-semibold rounded px-3 py-3 mb-3  border w-full text-lg placeholder:text-base"
+            >Login</button>
+            : 
+            <button type="button"
+              className="bg-[#111] text-white font-semibold rounded px-3 py-3 mb-3  border w-full text-lg placeholder:text-base cursor-not-allowed" disabled
+            >Loading...</button>
+          }
         </form>
         <p className="text-center">New Here? <Link to={'/signup'}  className=" text-blue-600">Create New Account</Link></p>
       </div>

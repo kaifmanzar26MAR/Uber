@@ -1,15 +1,10 @@
-import axios from 'axios';
-import React, { useEffect } from 'react'
+import axios from "axios";
+import { userLogout } from "../hooks/userHooks";
 
 const UserLogout = () => {
 
-  
-  const token = localStorage.getItem("token");
-
-  
-  return (
-    <div>UserLogout</div>
-  )
-}
-
-export default UserLogout
+   userLogout();
+ 
+  return <>Loading...</>
+};
+export default UserLogout;

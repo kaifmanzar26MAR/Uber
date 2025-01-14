@@ -11,15 +11,15 @@ const registerCaptain = async (req, res) => {
         }
 
         //*destructure the required data
-        let { firstname, lastname, email, password, vehicale } = req.body;
+        let { firstname, lastname, email, password, vehicle } = req.body;
 
         //*validating the data
-        if (!firstname || !email || !password || firstname.trim() === "" || email.trim() === "" || password.trim() === "" || !vehicale) {
+        if (!firstname || !email || !password || firstname.trim() === "" || email.trim() === "" || password.trim() === "" || !vehicle) {
             return res.status(401).json({ message: "All fields are required!" });
         }
 
         //*destructuring the vehicle data
-        let {color, plate, capacity, vehicleType} = vehicale;
+        let {color, plate, capacity, vehicleType} = vehicle;
 
         //*checks for vehicles
         if(!color || !plate || !capacity || !vehicleType || color.trim() === "" || plate.trim() === "" || vehicleType.trim() === "" || capacity <= 0) {
@@ -90,7 +90,7 @@ const registerCaptain = async (req, res) => {
         res.cookie("token", token);
 
         //*sending response
-        return res.status(201).json({ message: "Captain registered successfully!", token, captain });
+        return res.status(200).json({ message: "Captain registered successfully!", token, captain });
 
     } catch (error) {
         return res.status(500).json({ message: error.message });
@@ -134,7 +134,7 @@ const loginCaptain = async (req, res, next)=>{
         const token = await captain.generateAuthToken();
 
         if(!token){
-            throw new Error("Somehting went wrong in genrating token!");
+            throw new Error("Something went wrong in generating token!");
         }
 
         res.cookie('token', token);
@@ -145,7 +145,7 @@ const loginCaptain = async (req, res, next)=>{
 }
 
 const captainProfile = async (req, res, next) =>{
-    return res.status(200).json({message: "Got captain profile successfylly!", captain : req.captain});
+    return res.status(200).json({message: "Got captain profile successfully!", captain : req.captain});
 }
 
 const captainLogout = async (req, res, next) =>{

@@ -1,12 +1,31 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useCaptain } from "../context/CaptainContext";
 
 const CaptainLogin = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const captainLoginSubmit = (e) => {
+  const navigate = useNavigate();
+  const { captain, setCaptain } = useCaptain();
+  const captainLoginSubmit = async (e) => {
     e.preventDefault();
-    console.log(formData);
+    const response = await axios.post(`${import.meta.env.VITE_API_URL}/captains/login`, formData);
+    if(response.status === 200){
+      setCaptain(response.data.captain);
+      localStorage.setItem('captainToken', response.data.token);
+      navigate('/captain-home');
+    }else{
+      //*flash message with error
+      console.log(response);
+    }
   };
+
+  useEffect(()=>{
+    const captainToken = localStorage.getItem("captainToken");
+    if(captainToken){
+      navigate("/captain-home");
+    }  
+  },[])
 
   return (
     <div className="p-7 h-screen justify-between flex flex-col">
@@ -38,7 +57,7 @@ const CaptainLogin = () => {
             }}
           />
           <button className="bg-[#111] text-white font-semibold rounded px-3 py-3 mb-3  border w-full text-lg placeholder:text-base">
-            Login
+            Captain Login
           </button>
         </form>
         <p className="text-center">
