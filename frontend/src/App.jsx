@@ -7,36 +7,30 @@ import CaptainLogin from "./pages/CaptainLogin";
 import CaptainSignup from "./pages/CaptainSignup";
 import Start from "./pages/Start";
 import UserProtectedWrapper from "./secure/UserProtectedWrapper";
-import UserLogout from "./components/UserLogout";
+import UserLogout from "./components/userComponents/UserLogout";
 import CaptainHome from "./pages/captain/CaptainHome";
 import NotFound from "./pages/error/NotFound";
 import CaptainProtectedWrapper from "./secure/CaptainProtectedWrapper";
+import CaptainLogout from "./components/captainComponents/CaptainLogout";
 const App = () => {
   return (
     <div>
       <Routes>
+        //?Start Page
         <Route path="/" element={<Start />} />
+        /*
+        ################################################################################
+        */ //*User Routes
         <Route
           path="/home"
           element={
-            //*wrapping out the element with the protected wrapper give access to page only if the user exist
             <UserProtectedWrapper>
               <Home />
             </UserProtectedWrapper>
           }
         />
-        <Route
-          path="/captain-home"
-          element={
-            <CaptainProtectedWrapper>
-              <CaptainHome />
-            </CaptainProtectedWrapper>
-          }
-        />
         <Route path="/login" element={<UserLogin />} />
         <Route path="/signup" element={<UserSignup />} />
-        <Route path="/captain-login" element={<CaptainLogin />} />
-        <Route path="/captain-signup" element={<CaptainSignup />} />
         <Route
           path="/logout"
           element={
@@ -45,6 +39,30 @@ const App = () => {
             </UserProtectedWrapper>
           }
         />
+        /*
+        ################################################################################
+        */ //*Captain Routes
+        <Route
+          path="/captain-home"
+          element={
+            <CaptainProtectedWrapper>
+              <CaptainHome />
+            </CaptainProtectedWrapper>
+          }
+        />
+        <Route path="/captain-login" element={<CaptainLogin />} />
+        <Route path="/captain-signup" element={<CaptainSignup />} />
+        <Route
+          path="/captain-logout"
+          element={
+            <CaptainProtectedWrapper>
+              <CaptainLogout />
+            </CaptainProtectedWrapper>
+          }
+        />
+        /*
+        ################################################################################
+        */ //!404 Error Page
         <Route path="*" element={<NotFound />} />
       </Routes>
     </div>

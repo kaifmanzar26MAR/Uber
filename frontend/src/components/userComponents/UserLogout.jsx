@@ -1,5 +1,5 @@
 import axios from "axios";
-import { userLogout } from "../hooks/userHooks";
+import { userLogout } from "../../hooks/userHooks";
 
 const UserLogout = () => {
 

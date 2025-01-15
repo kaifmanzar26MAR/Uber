@@ -9,7 +9,7 @@ const userLogout = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
       setUser(null);
-      return true;
+      return;
     }
     const response = await axios.get(
       `${import.meta.env.VITE_API_URL}/users/logout`,
@@ -19,14 +19,11 @@ const userLogout = async () => {
         },
       }
     );
-    if (response.status === 200) {
-      localStorage.removeItem("token");
-      setUser(null);
-      return true;
-    } else {
-      console.log(error);
-      return false;
+    if(!response || response.status !== 200){
+      throw new Error(response.response.data.message);
     }
+    localStorage.removeItem("token");
+    setUser(null);
   } catch (error) {
     console.log(error);
     return false;
