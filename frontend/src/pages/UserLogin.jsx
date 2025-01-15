@@ -8,7 +8,7 @@ const UserLogin = () => {
   const navigate = useNavigate();
   const {user, setUser} = useContext(UserDataContext);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({email: "", password:""});
+  const [formData, setFormData] = useState({email: "kaifmanzar@gmail.com", password:"123456"});
   const userLoginSubmit = async (e) =>{
     e.preventDefault();
     setLoading(true);
@@ -46,7 +46,7 @@ const UserLogin = () => {
           <input 
             type="email" 
             className="bg-[#eeeeee] focus-within:outline-black rounded px-3 py-3 mb-7 border w-full text-lg placeholder:text-base"
-            required 
+            // required 
             placeholder="email@example.com"
             onChange={(e)=>{setFormData({...formData, email: e.target.value})}}
           />
@@ -54,7 +54,7 @@ const UserLogin = () => {
           <input 
             type="password" 
             className="bg-[#eeeeee] focus-within:outline-black rounded px-3 py-3 mb-7 border w-full text-lg placeholder:text-base"
-            required 
+            // required 
             placeholder="password"
             onChange={(e)=>{setFormData({...formData, password: e.target.value})}}
           />
