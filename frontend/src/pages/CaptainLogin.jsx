@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useCaptain } from "../context/CaptainContext";
 
 const CaptainLogin = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [formData, setFormData] = useState({ email: "captain1@gmail.com", password: "123456" });
   const navigate = useNavigate();
   const { captain, setCaptain } = useCaptain();
   const captainLoginSubmit = async (e) => {
@@ -40,7 +40,7 @@ const CaptainLogin = () => {
           <input
             type="email"
             className="bg-[#eeeeee] focus-within:outline-black rounded px-3 py-3 mb-7 border w-full text-lg placeholder:text-base"
-            required
+            // required
             placeholder="email@example.com"
             onChange={(e) => {
               setFormData({ ...formData, email: e.target.value });
@@ -50,7 +50,7 @@ const CaptainLogin = () => {
           <input
             type="password"
             className="bg-[#eeeeee] focus-within:outline-black rounded px-3 py-3 mb-7 border w-full text-lg placeholder:text-base"
-            required
+            // required
             placeholder="password"
             onChange={(e) => {
               setFormData({ ...formData, password: e.target.value });

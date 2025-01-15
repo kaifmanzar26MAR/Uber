@@ -4,7 +4,6 @@ import { useCaptain } from "../context/CaptainContext";
 
 
 const getCaptainProfile = async () =>{
-    const {setCaptain} = useCaptain();
     const captainToken = localStorage.getItem("captainToken");
     try {
         if(!captainToken){
@@ -20,7 +19,7 @@ const getCaptainProfile = async () =>{
         if(!response || response.status !== 200){
             return null;
         }
-        setCaptain(response.data.captain);
+        return response.data.captain;
     } catch (error) {
         console.log(error);
         return null;
