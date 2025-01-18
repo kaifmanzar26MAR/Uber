@@ -2,15 +2,23 @@ import React, { useRef, useState } from "react";
 import {useGSAP} from '@gsap/react';
 import gsap from "gsap";
 import 'remixicon/fonts/remixicon.css';
-import LocationSearchPanel from "../../components/userComponents/LocationSearchPanel";
+import LocationSearchPanel from "../../components/userComponents/panels/LocationSearchPanel";
+import VehiclePanel from "../../components/userComponents/panels/VehiclePanel";
+import ConfirmRidePanel from "../../components/userComponents/panels/ConfirmRidePanel";
 const Home = () => {
   //*data container state for the location form
   const [locationData, setLocationData] = useState({
     pickup: "",
     destination: "",
   });
-  //*for opening or closing the panel
+  //*for opening or closing the search panel
   const [isPanelOpen, setIsPanelOpen] = useState(false);
+
+  //*for opening or closing the vehicle panel
+  const [isVehiclePanelOpen, setIsVehiclePanelOpen] = useState(false);
+
+  //*for opening or closing the confirm ride panel
+  const [isRidePanelOpen, setIsRidePanelOpen] = useState(false);
 
   //*form submit
   const locationFormSubmit = async (e) => {
@@ -22,10 +30,19 @@ const Home = () => {
     setIsPanelOpen(true);
   }
 
+  //*Ref variable for search panel
   const panelRef = useRef(null);
   const panelCloseRef = useRef(null);
 
-  //*gsap
+  //*Ref variable for vehicle panel
+  const vehiclePanelRef = useRef(null);
+  const vehiclePanelCloseRef = useRef(null);
+
+  //*Ref variables for confirm ride panel
+  const ridePanelRef = useRef(null);
+  const ridePanelCloseRef = useRef(null);
+
+  //*gsap for search panel
   useGSAP(function(){
     if(isPanelOpen){
       gsap.to(panelRef.current, {
@@ -46,6 +63,48 @@ const Home = () => {
     }
     
   }, [isPanelOpen])
+
+  //*gsap for vehicle panel
+  useGSAP(function(){
+    if(isVehiclePanelOpen){
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(0)'
+      })
+      gsap.to(vehiclePanelCloseRef.current, {
+        opacity: 1
+      })
+    }else{
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+      gsap.to(vehiclePanelCloseRef.current, {
+        opacity: 0
+      })
+    }
+  },[isVehiclePanelOpen])
+
+   //*gsap for ride panel
+   useGSAP(function(){
+    if(isRidePanelOpen){
+      gsap.to(vehiclePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+      gsap.to(ridePanelRef.current, {
+        transform: 'translateY(0)'
+      })
+      gsap.to(ridePanelCloseRef.current, {
+        opacity: 1
+      })
+    }else{
+      gsap.to(ridePanelRef.current, {
+        transform: 'translateY(100%)'
+      })
+      gsap.to(ridePanelCloseRef.current, {
+        opacity: 0
+      })
+    }
+  },[isRidePanelOpen])
+
   return (
     <div className="h-screen relative overflow-hidden">
       <img
@@ -54,6 +113,7 @@ const Home = () => {
         className="w-20 absolute top-2 left-2 bg-white rounded px-2"
       />
 
+      {/* //*The map show */}
       <div className="h-screen w-screen">
         {/* image for temporary use  */}
         <img
@@ -63,11 +123,14 @@ const Home = () => {
         />
       </div>
 
+      {/* //*for the location search and the relative search result? */}
       <div className="absolute top-0 w-full h-screen flex flex-col justify-end">
         {/* //*input form for location and destination */}
         <div className="h-fit p-5 bg-white relative">
-          <h5 ref={panelCloseRef} onClick={()=>{setIsPanelOpen(false)}} className="absolute right-6 top-6 text-2xl cursor-pointer opacity-0"><i className="ri-arrow-down-wide-line"></i></h5>
-          <h4 className="text-2xl font-semibold">Find a trip</h4>
+          <div className="flex items-center justify-between text-2xl font-semibold">
+            <h4>Find a trip</h4>
+            <h5 ref={panelCloseRef} onClick={()=>{setIsPanelOpen(false)}} className="cursor-pointer opacity-0"><i className="ri-arrow-down-wide-line"></i></h5>
+          </div>
           <form onSubmit={locationFormSubmit}>
             <div className="line absolute h-16 w-[2px] top-[45%] left-10 bg-black rounded-full"></div>
             <input
@@ -101,11 +164,22 @@ const Home = () => {
         {/* //*location search result */}
         <div
           ref={panelRef}
-          className={`h-0 bg-slate-200 p-0`}
+          className={`h-0 bg-[#f8f8f8] p-0`}
         >
-          <LocationSearchPanel/>
+          <LocationSearchPanel setIsPanelOpen={setIsPanelOpen} setIsVehiclePanelOpen={setIsVehiclePanelOpen}/>
         </div>
       </div>
+
+      {/* //*vehicle show of the relative search result */}
+      <div ref={vehiclePanelRef} className="fixed z-10 bottom-0 bg-white w-full p-3 translate-y-full">
+            <VehiclePanel setIsVehiclePanelOpen={setIsVehiclePanelOpen} vehiclePanelCloseRef={vehiclePanelCloseRef} setIsRidePanelOpen={setIsRidePanelOpen} />
+      </div>
+
+      {/* //* Confirm ride panel */}
+      <div ref={ridePanelRef} className="fixed z-10 bottom-0 bg-white w-full p-3 translate-y-full">
+            <ConfirmRidePanel ridePanelCloseRef={ridePanelCloseRef} setIsRidePanelOpen={setIsRidePanelOpen} />
+      </div>
+        
     </div>
   );
 };
